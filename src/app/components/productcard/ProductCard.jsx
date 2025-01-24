@@ -1,12 +1,25 @@
+"use client";
+
+import { addToCart } from "@/app/redux/features/cartSlice";
+import Link from "next/link";
+import { useDispatch } from "react-redux";
 const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
+  const cartHandler = (productId) => {
+    dispatch(addToCart(productId));
+  };
+
   return (
     <div className="border rounded-lg shadow-sm p-4 flex flex-col">
       <div className="relative">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="rounded-md w-full h-40 object-cover"
-        />
+        <Link href={`/shop/${product.id}`}>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="rounded-md w-full h-40 object-cover"
+          />
+        </Link>
+
         <div className="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 rounded text-sm">
           ৳ {product.price}
         </div>
@@ -22,8 +35,11 @@ const ProductCard = ({ product }) => {
           {product.stock ? "In stock" : "Out of stock"}
         </p>
       </div>
-      <button className="mt-auto bg-green-500 text-white py-2 rounded-md hover:bg-green-600">
-        See Details
+      <button
+        onClick={() => cartHandler(product.id)}
+        className="mt-auto bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
+      >
+        Add to Cart
       </button>
     </div>
   );

@@ -96,11 +96,9 @@ const Footer = () => {
           <span className="text-sm">Pay With</span>
           <Image
             src="https://www.khaasfood.com/wp-content/uploads/2022/12/SSL-Commerz-Pay-With-logo-All-Size-03-scaled.webp"
-            layout="responsive"
             alt="Profile picture"
             width={1200} // Original width of the image
             height={300} // Original height of the image
-            priority
           />
         </div>
 

@@ -1,12 +1,16 @@
 "use client";
 
-import Image from "next/image";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 import { FaBars, FaHeart, FaShoppingCart } from "react-icons/fa";
-
+import { useSelector } from "react-redux";
 const Header = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data, status } = useSession();
+  const { items, total } = useSelector((state) => state.cartItems);
 
+  // if (status === "loading") return <div>Loading...</div>;
   return (
     <nav className="bg-white shadow-md px-4 md:px-8 lg:px-16 py-4">
       <div className="container mx-auto flex items-center justify-between">
@@ -36,28 +40,38 @@ const Header = () => {
 
         {/* Menu Items */}
         <div className="hidden md:flex items-center space-x-6">
-          <a href="#" className="text-gray-800 hover:text-green-500">
+          <Link className="text-gray-800 hover:text-green-500" href={"/shop"}>
+            {" "}
             Products
-          </a>
-          <a href="#" className="text-gray-800 hover:text-green-500">
+          </Link>
+          <Link className="text-gray-800 hover:text-green-500" href={"/about"}>
             About
-          </a>
-          <a href="#" className="text-gray-800 hover:text-green-500">
+          </Link>
+
+          <Link
+            className="text-gray-800 hover:text-green-500"
+            href={"/contact"}
+          >
+            {" "}
             Contact
-          </a>
+          </Link>
           <div className="relative">
-            <a href="#" className="text-gray-800 hover:text-green-500">
+            <Link href={"/cart"} className="text-gray-800 hover:text-green-500">
               <FaShoppingCart size={18} />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                1
+                {items.length || 0}
               </span>
-            </a>
+            </Link>
           </div>
-          <a href="#" className="text-red-500 hover:text-red-600">
-            <FaHeart size={18} />
-          </a>
+          <Link href="/wishlist" className="text-red-500 hover:text-red-600">
+            <FaHeart size={20} />
+          </Link>
+
           <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
-            SIGN IN
+            <Link href="/signin">SIGN IN</Link>
+          </button>
+          <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+            <Link href="/signup">SIGN UP</Link>
           </button>
         </div>
 
@@ -95,8 +109,18 @@ const Header = () => {
           <a href="#" className="block text-red-500 hover:text-red-600">
             Wishlist
           </a>
+          {session.user ? (
+            <div className="block text-gray-800 hover:text-green-500">
+              Welcome, {session.user.name}
+            </div>
+          ) : (
+            <button className="bg-green-500 text-white px-4 py-2 rounded-lg w-full hover:bg-green-600">
+              <Link href={"/signin"}> SIGN IN</Link>
+            </button>
+          )}
+
           <button className="bg-green-500 text-white px-4 py-2 rounded-lg w-full hover:bg-green-600">
-            SIGN IN
+            <Link href={"/signup"}> SIGN UP</Link>
           </button>
         </div>
       )}

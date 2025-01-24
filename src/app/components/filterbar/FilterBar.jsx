@@ -12,7 +12,7 @@ const catagories = [
 
 const FilterBar = ({ setCatagoryName, catagoryName }) => {
   return (
-    <nav className="border-b">
+    <div className="border-b">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <ul className="flex justify-around items-center space-x-4 md:space-x-8 py-3">
           {catagories.map((category, index) => (
@@ -28,7 +28,7 @@ const FilterBar = ({ setCatagoryName, catagoryName }) => {
           ))}
         </ul>
       </div>
-    </nav>
+    </div>
   );
 };
 

@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
         </p>
       </div>
       <button
-        onClick={() => cartHandler(product.id)}
+        onClick={() => cartHandler(product)}
         className="mt-auto bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
       >
         Add to Cart

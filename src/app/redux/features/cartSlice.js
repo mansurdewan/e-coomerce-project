@@ -11,7 +11,16 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, { payload }) => {
-      state.items.push(products?.find(({ id }) => id === payload));
+      const existingProduct = state.items?.find((item, i) => {
+        if (item.id === payload.id) {
+          state.items[i].qut = payload?.qut ? payload.qut : 1;
+          return item;
+        }
+      });
+
+      if (!existingProduct) {
+        state.items.push(payload);
+      }
     },
     removeFromCart: (state, { payload }) => {
       // Remove the product from the cart array based on the product ID

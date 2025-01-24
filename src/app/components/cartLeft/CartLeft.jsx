@@ -1,14 +1,14 @@
 "use client";
 
-import { removeFromCart } from "@/app/redux/features/cartSlice";
+import { addToCart, removeFromCart } from "@/app/redux/features/cartSlice";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 function CartLeft({ cartItem, setTotalPrice }) {
   const [itemPrice, setItemPrice] = useState(cartItem.price);
-  const [quantity, setQuantity] = useState(1);
-
+  const [quantity, setQuantity] = useState(cartItem.qut);
   const dispatch = useDispatch();
+
   // const priceHandler = (e) => {
   //   const { textContent: action } = e.target;
   //   setQuantity((prev) => {
@@ -23,11 +23,6 @@ function CartLeft({ cartItem, setTotalPrice }) {
   //   setItemPrice(itemPrice * quantity);
   // }, [quantity]);
 
-  useEffect(() => {
-    const local = localStorage.getItem("totalprice") || [];
-    const localPrice =
-      local.find((item) => item.id === cartItem.id)?.price || itemPrice;
-  }, [quantity]);
   return (
     <div className="bg-white p-4 rounded-lg shadow flex justify-between items-center">
       <div className="flex items-center gap-4">
@@ -49,6 +44,8 @@ function CartLeft({ cartItem, setTotalPrice }) {
               onClick={() => {
                 if (quantity > 1) {
                   setQuantity(quantity - 1);
+                  const item = { ...cartItem, qut: quantity - 1 };
+                  dispatch(addToCart(item));
                 }
               }}
               className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300"
@@ -60,6 +57,8 @@ function CartLeft({ cartItem, setTotalPrice }) {
               onClick={() => {
                 if (quantity > 0) {
                   setQuantity(quantity + 1);
+                  const item = { ...cartItem, qut: quantity + 1 };
+                  dispatch(addToCart(item));
                 }
               }}
               className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300"
